@@ -1,0 +1,90 @@
+grammar a;
+root : declaration function;
+declaration : '*' declarationlist '<' declarationtype '>' ;
+declarationlist : 'include' | 'define' ;
+declarationtype : 'ters' ;
+function : 'int' IN '{' '}'block;
+block : '[' statement ']' ;
+statement :(
+expressionstmt
+|selectionstmt
+| printstmt
+| assignstmt
+|statement_return
+| loopstmt )+
+           ;
+           expressionstmt : datatype expr ';' | ';' ;
+           statement_return : 'return' expr ';' | 'return' term ';' ;
+           expr : expr expression expr | expr compare expr | '(' expr ')' | term ;
+           expression : 'plus' | 'minus' | 'into' | 'by' ;
+           compare : 'equal to' | 'not equal' | 'greater than equal' | 'less than' | 'greater than' | 'less than equal' | '=' ;
+           selectionstmt : 'if' '(' expr ')' block | 'if' '(' expr ')' block 'else' block ;
+           printstmt :
+           PRINT term SEMICOLON
+           |
+           PRINT QUOTE STRING+ QUOTE SEMICOLON
+           ;
+           assignstmt :
+      NAME ASSIGN expression SEMICOLON
+      ;
+      loopstmt :
+      LOOP LPAREN identifier ARROW integer COMMA integer RPAREN
+      (statement | loopstmt)+
+      ENDLOOP
+      |
+      LOOP LPAREN identifier ARROW identifier COMMA integer RPAREN
+      (statement | loopstmt)+
+      ENDLOOP
+      |
+      LOOP LPAREN identifier ARROW integer COMMA identifier RPAREN
+      (statement | loopstmt)+
+      ENDLOOP
+      |
+       LOOP LPAREN identifier ARROW identifier COMMA identifier RPAREN
+       (statement | loopstmt)+
+       ENDLOOP
+       ;
+       term : identifier
+       | integer
+       | dbl
+       |IN
+       ;
+       identifier : NAME ;
+       datatype : INT
+       |
+       DOUBLE
+       |
+       FLOAT
+;
+dbl : DBL
+;
+integer : INTEGER;
+IF: 'if';
+ELSE: 'else';
+ENDIF: 'endif';
+PRINT: 'print';
+INT: 'int';
+DOUBLE: 'double';
+FLOAT: 'float';
+LOOP: 'loop';
+ARROW: '->';
+COMMA: ',';
+ENDLOOP: 'endloop';
+PLUS: '+';
+MINUS: '-';
+DIV: '/';
+MUL: '*';
+ASSIGN: '=';
+POINT: '.';
+SEMICOLON: ';';
+LPAREN: '(';
+RPAREN: ')';
+QUOTE: '"';
+IN: [a-zA-Z]+ ;
+INTEGER: [0-9][0-9]*;
+DBL: INTEGER POINT INTEGER
+| INTEGER
+;
+SYMBOL: (','|'.' | '/' | '*' | '+' | '-' | '<' | '>' | '!' | '@' | '#' | '$' | '%' | '&' | '=' | ':');
+STRING: ([a-z] | [A-Z] | [0-9] | SYMBOL)+;
+WS: [ \t\r\n]+ -> skip ;

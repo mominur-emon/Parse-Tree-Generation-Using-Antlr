@@ -1,0 +1,24 @@
+* include < ters >
+int main {}
+[
+int a = 10;
+int b = 5;
+int i = 15;
+int j = 0;
+int k = 25;
+double c = 21;
+double d = 22;
+if(c greater than d)
+[
+print c;
+]
+else
+[
+print d;
+]
+]
+loop(j -> b , 1)
+[
+print "Hello World";
+endloop
+]
